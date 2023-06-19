@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,84 +16,32 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Container(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Container(
-                    color: Colors.black,
-                    width: 300,
-                    height: 300,
-                  ),
-                  Container(
-                    color: Colors.red,
-                    height: 150,
-                    width: 150,
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 75,
-                    width: 75,
-                  ),
-                  Container(
-                    color: Colors.yellow,
-                    height: 37,
-                    width: 37,
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  const Text(
-                    'Quem apertar o botão é gay',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 28,
-                      decoration: TextDecoration.none,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      print('gay');
-                    },
-                    child: const Text('Tá avisado',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          decoration: TextDecoration.none,
-                        )),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    color: Colors.deepOrange,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    color: Colors.deepOrange,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    color: Colors.deepOrange,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ));
+        home: Scaffold(
+            appBar: AppBar(
+              title: const Text("WinchesterAPP"),
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(height: 400.0),
+                  items: [1, 2, 3, 4, 5].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration:
+                                const BoxDecoration(color: Colors.amber),
+                            child: Text(
+                              'text $i',
+                              style: const TextStyle(fontSize: 16.0),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                )
+              ],
+            )));
   }
 }
