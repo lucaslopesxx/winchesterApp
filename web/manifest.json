@@ -1,6 +1,6 @@
 {
-    "name": "winchesterapp",
-    "short_name": "winchesterapp",
+    "name": "app",
+    "short_name": "app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
