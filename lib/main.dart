@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                   CarouselSlider(
                     options: CarouselOptions(
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 10),
+                      autoPlayInterval: const Duration(seconds: 10),
                       enlargeCenterPage: true,
                     ),
                     items: [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                           return Container(
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 1.0),
-                              child: (Card(modulos[i])));
+                              child: (Card(modulos[i], modImagens[i])));
                         },
                       );
                     }).toList(),
@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
 
 class Card extends StatelessWidget {
   final String modulo;
-  const Card(this.modulo, {super.key});
+  final String imagem;
+  const Card(this.modulo, this.imagem, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,22 +68,19 @@ class Card extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Container(
-                width: 125,
-                height: 125,
-                color: Colors.black,
+            Image.asset(
+              'assets/image/$imagem',
+              width: 125,
+            ),
+            Text(
+              modulo,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 0, 199, 255),
+                fontSize: 28,
               ),
-              Text(
-                modulo,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 0, 199, 255),
-                  fontSize: 28,
-                ),
-                textAlign: TextAlign.center,
-              )
-            ])
+              textAlign: TextAlign.center,
+            )
           ],
         ));
   }
@@ -98,4 +96,16 @@ List<String> modulos = [
   'Demônios',
   'Anjos',
   'Divindades'
+];
+
+List<String> modImagens = [
+  'materiais.png',
+  'caca.png',
+  'investigacao.png',
+  'mitologia.png',
+  'fantasmas.png',
+  'monstros.png',
+  'demonios.png',
+  'anjos.png',
+  'divindades.png',
 ];
