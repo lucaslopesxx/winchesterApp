@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -18,25 +16,65 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          appBar: AppBar(
-              title: const Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text('WinchesterAPP'),
-              // Image.asset(
-              //   'assets/images/icone.png',
-              //   width: 100,
-              // ),
-            ],
-          )),
-          body: ListView(
-            children: [
-              Column(children: [
-                Carrossel(),
-              ])
-            ],
-          ),
-        ));
+            backgroundColor: Cores.corPrimaria,
+            appBar: AppBar(
+                backgroundColor: Cores.corHover,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/images/icone.png',
+                      width: 75,
+                    ),
+                    const Icon(
+                      Icons.menu,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ],
+                )),
+            body: SizedBox(
+              height: double
+                  .infinity, // Define a altura para preencher todo o espaço disponível
+              child: Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: Cores.corTerciaria,
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(1000.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  ListView(
+                    children: [
+                      Carrossel(),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Cores.corTerciaria,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(1000.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )));
   }
 }
 
@@ -136,7 +174,7 @@ class Card extends StatelessWidget {
                   modulo,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 0, 199, 255),
+                    color: Cores.corExtra2,
                     fontSize: 28,
                     decoration: TextDecoration.none,
                   ),
@@ -147,6 +185,15 @@ class Card extends StatelessWidget {
           ],
         ));
   }
+}
+
+class Cores {
+  static const Color corPrimaria = Color.fromARGB(255, 14, 14, 14);
+  static const Color corSecundaria = Color.fromARGB(255, 246, 246, 246);
+  static const Color corTerciaria = Color.fromARGB(255, 8, 156, 198);
+  static const Color corExtra = Color.fromARGB(255, 8, 82, 104);
+  static const Color corExtra2 = Color.fromARGB(255, 0, 199, 255);
+  static const Color corHover = Color.fromARGB(255, 37, 37, 37);
 }
 
 List<String> modulos = [
