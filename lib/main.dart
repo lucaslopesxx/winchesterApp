@@ -34,130 +34,73 @@ class Home extends StatelessWidget {
   }
 }
 
-class Carrossel extends StatefulWidget {
-  const Carrossel({super.key});
-
-  @override
-  State<Carrossel> createState() => _Carrossel();
-}
-
-class _Carrossel extends State<Carrossel> {
-  int _atual = 0;
-  final CarouselController _controle = CarouselController();
+class NavBar extends StatelessWidget {
+  const NavBar(this.app, {super.key});
+  final Widget app;
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        padding: const EdgeInsets.only(top: 35),
-        child: Text('DESTAQUES',
-            style: GoogleFonts.kronaOne(
-              textStyle: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 35,
+    return Scaffold(
+      backgroundColor: Cores.corPrimaria,
+      endDrawer: SideBar(),
+      appBar: AppBar(
+          backgroundColor: Cores.corHover,
+          title: Row(
+            children: [
+              Positioned(
+                child: Image.asset(
+                  'assets/images/icone.png',
+                  width: 75,
+                ),
+              )
+            ],
+          )),
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(colors: [
+                      Cores.corTerciaria,
+                      Cores.corPrimaria
+                          .withOpacity(0.0), // Cor com transparência
+                    ], center: Alignment.topLeft, radius: 1),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(1000.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            app,
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(colors: [
+                    Cores.corTerciaria,
+                    Cores.corPrimaria.withOpacity(0.0), // Cor com transparência
+                  ], center: Alignment.bottomRight, radius: 1),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(1000.0),
+                  ),
+                ),
               ),
-            )),
-      ),
-      CarouselSlider(
-        items: modulos.asMap().entries.map((i) {
-          final int posicao = i.key;
-          final String modulo = i.value;
-          final String imagem = modImagens[posicao];
-          final Widget link = linkImagens[posicao];
-
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                child: CardCarrossel(modulo, imagem, link),
-              );
-            },
-          );
-        }).toList(),
-        carouselController: _controle,
-        options: CarouselOptions(
-          autoPlay: true,
-          autoPlayInterval: const Duration(milliseconds: 7500),
-          enlargeCenterPage: true,
-          onPageChanged: (posicao, reason) {
-            setState(() {
-              _atual = posicao;
-            });
-          },
+            )
+          ],
         ),
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: modulos.asMap().entries.map((i) {
-          return GestureDetector(
-            onTap: () => _controle.animateToPage(i.key),
-            child: Container(
-              width: 12.0,
-              height: 12.0,
-              margin: const EdgeInsets.symmetric(horizontal: 3.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Cores.corSecundaria)
-                    .withOpacity(_atual == i.key ? 0.9 : 0.4),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    ]);
-  }
-}
-
-class CardCarrossel extends StatelessWidget {
-  final String modulo;
-  final String imagem;
-  final Widget link;
-  const CardCarrossel(this.modulo, this.imagem, this.link, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return link;
-              }))
-            },
-        child: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.symmetric(vertical: 25),
-                decoration: BoxDecoration(
-                  color: Cores.corPrimaria.withAlpha(180),
-                  border: Border.all(
-                      color: Colors.white, // Set border color
-                      width: 2.0), // Set border width
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(15.0)), // Set rounded corner radius
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset('assets/images/$imagem',
-                        height: MediaQuery.of(context).size.height * 0.10),
-                    Container(
-                      padding: const EdgeInsets.only(top: 25),
-                      child: Text(modulo,
-                          style: GoogleFonts.montserrat(
-                            textStyle: const TextStyle(
-                              color: Cores.corExtra2,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32,
-                            ),
-                          )),
-                    ),
-                  ],
-                ))));
+    );
   }
 }
 
@@ -273,168 +216,181 @@ class SideBar extends StatelessWidget {
   }
 }
 
-class Cores {
-  static const Color corPrimaria = Color.fromARGB(255, 14, 14, 14);
-  static const Color corSecundaria = Color.fromARGB(255, 246, 246, 246);
-  static const Color corTerciaria = Color.fromARGB(255, 8, 156, 198);
-  static const Color corExtra = Color.fromARGB(255, 8, 82, 104);
-  static const Color corExtra2 = Color.fromARGB(255, 0, 199, 255);
-  static const Color corHover = Color.fromARGB(255, 37, 37, 37);
+class Carrossel extends StatefulWidget {
+  const Carrossel({super.key});
+
+  @override
+  State<Carrossel> createState() => _Carrossel();
 }
 
-class Materiais extends StatelessWidget {
-  const Materiais({super.key});
+class _Carrossel extends State<Carrossel> {
+  int _atual = 0;
+  final CarouselController _controle = CarouselController();
 
   @override
   Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Instrucoes extends StatelessWidget {
-  const Instrucoes({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Investigacao extends StatelessWidget {
-  const Investigacao({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Mitologia extends StatelessWidget {
-  const Mitologia({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Fantasmas extends StatelessWidget {
-  const Fantasmas({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Monstros extends StatelessWidget {
-  const Monstros({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Demonios extends StatelessWidget {
-  const Demonios({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Anjos extends StatelessWidget {
-  const Anjos({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class Divindades extends StatelessWidget {
-  const Divindades({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Conta();
-  }
-}
-
-class NavBar extends StatelessWidget {
-  const NavBar(this.app, {super.key});
-  final Widget app;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Cores.corPrimaria,
-      endDrawer: SideBar(),
-      appBar: AppBar(
-          backgroundColor: Cores.corHover,
-          title: Row(
-            children: [
-              Positioned(
-                child: Image.asset(
-                  'assets/images/icone.png',
-                  width: 75,
-                ),
-              )
-            ],
-          )),
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(colors: [
-                      Cores.corTerciaria,
-                      Cores.corPrimaria
-                          .withOpacity(0.0), // Cor com transparência
-                    ], center: Alignment.topLeft, radius: 1),
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(1000.0),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            app,
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                width: 300,
-                height: 300,
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(colors: [
-                    Cores.corTerciaria,
-                    Cores.corPrimaria.withOpacity(0.0), // Cor com transparência
-                  ], center: Alignment.bottomRight, radius: 1),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(1000.0),
-                  ),
-                ),
+    return Column(children: [
+      Container(
+        padding: const EdgeInsets.only(top: 35),
+        child: Text('DESTAQUES',
+            style: GoogleFonts.kronaOne(
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 35,
               ),
-            )
-          ],
+            )),
+      ),
+      CarouselSlider(
+        items: modulos.asMap().entries.map((i) {
+          final int posicao = i.key;
+          final String modulo = modulos[posicao].nome;
+          final String imagem = modulos[posicao].imagem;
+          final Widget link = Conta();
+
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.90,
+                margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                child: CardCarrossel(modulo, imagem, link),
+              );
+            },
+          );
+        }).toList(),
+        carouselController: _controle,
+        options: CarouselOptions(
+          autoPlay: true,
+          autoPlayInterval: const Duration(milliseconds: 7500),
+          enlargeCenterPage: true,
+          onPageChanged: (posicao, reason) {
+            setState(() {
+              _atual = posicao;
+            });
+          },
         ),
       ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: modulos.asMap().entries.map((i) {
+          return GestureDetector(
+            onTap: () => _controle.animateToPage(i.key),
+            child: Container(
+              width: 12.0,
+              height: 12.0,
+              margin: const EdgeInsets.symmetric(horizontal: 3.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Cores.corSecundaria)
+                    .withOpacity(_atual == i.key ? 0.9 : 0.4),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    ]);
+  }
+}
+
+class CardCarrossel extends StatelessWidget {
+  final String modulo;
+  final String imagem;
+  final Widget link;
+  const CardCarrossel(this.modulo, this.imagem, this.link, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return link;
+              }))
+            },
+        child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.90,
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.symmetric(vertical: 25),
+                decoration: BoxDecoration(
+                  color: Cores.corPrimaria.withAlpha(180),
+                  border: Border.all(
+                      color: Colors.white, // Set border color
+                      width: 2.0), // Set border width
+                  borderRadius: const BorderRadius.all(
+                      Radius.circular(15.0)), // Set rounded corner radius
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset('assets/images/$imagem',
+                        height: MediaQuery.of(context).size.height * 0.10),
+                    Container(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Text(modulo,
+                          style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                              color: Cores.corExtra2,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 32,
+                            ),
+                          )),
+                    ),
+                  ],
+                ))));
+  }
+}
+
+class CardContato extends StatelessWidget {
+  final String imagem;
+  final String nome;
+  final String cargo;
+  const CardContato(this.imagem, this.nome, this.cargo, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.425,
+      height: MediaQuery.of(context).size.height * 0.24,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            fit: BoxFit.cover, image: AssetImage('assets/images/$imagem.png')),
+        border: Border.all(
+            color: Colors.white, // Set border color
+            width: 1.0), // Set border width
+        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Text(nome,
+            style: GoogleFonts.montserrat(
+              textStyle: const TextStyle(
+                color: Cores.corExtra2,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            )),
+        Container(
+          padding: const EdgeInsets.only(bottom: 10, top: 5),
+          child: Text(
+            cargo,
+            style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+              fontSize: 11,
+            )),
+          ),
+        ),
+      ]),
     );
   }
 }
 
 class Modulos extends StatelessWidget {
   const Modulos({super.key});
+  static const Widget link = Conta();
 
   @override
   Widget build(BuildContext context) {
@@ -458,54 +414,54 @@ class Modulos extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 20),
-                child: CardCarrossel(modulos[0], modImagens[0], linkImagens[0]),
+                child: CardCarrossel(modulos[0].nome, modulos[0].imagem, link),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 20),
-                child: CardCarrossel(modulos[1], modImagens[1], linkImagens[1]),
+                child: CardCarrossel(modulos[1].nome, modulos[1].imagem, link),
               ),
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[2], modImagens[2], linkImagens[2]),
+                child: CardCarrossel(modulos[2].nome, modulos[2].imagem, link),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[3], modImagens[3], linkImagens[3]),
-              ),
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[4], modImagens[4], linkImagens[4]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[5], modImagens[5], linkImagens[5]),
+                child: CardCarrossel(modulos[3].nome, modulos[3].imagem, link),
               ),
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[6], modImagens[6], linkImagens[6]),
+                child: CardCarrossel(modulos[4].nome, modulos[4].imagem, link),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: CardCarrossel(modulos[7], modImagens[7], linkImagens[7]),
+                child: CardCarrossel(modulos[5].nome, modulos[5].imagem, link),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: CardCarrossel(modulos[6].nome, modulos[6].imagem, link),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: CardCarrossel(modulos[7].nome, modulos[7].imagem, link),
               ),
             ]),
             Container(
               width: MediaQuery.of(context).size.width * 0.45,
               padding: const EdgeInsets.only(top: 15),
-              child: CardCarrossel(modulos[8], modImagens[8], linkImagens[8]),
+              child: CardCarrossel(modulos[8].nome, modulos[8].imagem, link),
             ),
           ]),
     ]));
@@ -550,12 +506,12 @@ class Suporte extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               GestureDetector(
-                onTap: () => _exibirInformacoesContato(context, professores[0]),
+                onTap: () => informacoesContato(context, professores[0]),
                 child: const CardContato(
                     'dean', 'DEAN WINCHESTER', 'INSTRUTOR DE CAÇA'),
               ),
               GestureDetector(
-                onTap: () => _exibirInformacoesContato(context, professores[1]),
+                onTap: () => informacoesContato(context, professores[1]),
                 child: const CardContato(
                     'sam', 'SAMUEL WINCHESTER', 'ANALISTA DE CASOS'),
               )
@@ -566,14 +522,12 @@ class Suporte extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () =>
-                          _exibirInformacoesContato(context, professores[2]),
+                      onTap: () => informacoesContato(context, professores[2]),
                       child: const CardContato(
                           'bobby', 'ROBERT SINGER', 'MITOLOGISTA'),
                     ),
                     GestureDetector(
-                      onTap: () =>
-                          _exibirInformacoesContato(context, professores[3]),
+                      onTap: () => informacoesContato(context, professores[3]),
                       child: const CardContato(
                           'castiel', 'CASTIEL', 'GUARDIÃO CELESTIAL'),
                     ),
@@ -584,7 +538,7 @@ class Suporte extends StatelessWidget {
   }
 }
 
-void _exibirInformacoesContato(BuildContext context, Professor professor) {
+void informacoesContato(BuildContext context, Professor professor) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -713,69 +667,6 @@ void _exibirInformacoesContato(BuildContext context, Professor professor) {
       });
 }
 
-List<Professor> professores = [
-  Professor('DEAN WINCHESTER', 'deanwinchester@winchesteracademy.com.br',
-      '(11)98206-7492'),
-  Professor('SAMUEL WINCHESTER', 'samuelwinchester@winchesteracademy.com.br',
-      '(11)98600-4585'),
-  Professor('ROBERT SINGER', 'robertsinger@winchesteracademy.com.br',
-      '(11)99212-8222'),
-  Professor('CASTIEL', 'castiel@winchesteracademy.com.br', '(11)99876-6363'),
-];
-
-class Professor {
-  String nome;
-  String email;
-  String telefone;
-
-  Professor(this.nome, this.email, this.telefone);
-}
-
-class CardContato extends StatelessWidget {
-  final String imagem;
-  final String nome;
-  final String cargo;
-  const CardContato(this.imagem, this.nome, this.cargo, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.425,
-      height: MediaQuery.of(context).size.height * 0.24,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            fit: BoxFit.cover, image: AssetImage('assets/images/$imagem.png')),
-        border: Border.all(
-            color: Colors.white, // Set border color
-            width: 1.0), // Set border width
-        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-      ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Text(nome,
-            style: GoogleFonts.montserrat(
-              textStyle: const TextStyle(
-                color: Cores.corExtra2,
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-              ),
-            )),
-        Container(
-          padding: const EdgeInsets.only(bottom: 10, top: 5),
-          child: Text(
-            cargo,
-            style: GoogleFonts.montserrat(
-                textStyle: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w300,
-              fontSize: 11,
-            )),
-          ),
-        ),
-      ]),
-    );
-  }
-}
-
 class Conta extends StatelessWidget {
   const Conta({super.key});
 
@@ -784,10 +675,6 @@ class Conta extends StatelessWidget {
     return const NavBar(TelaLogin());
   }
 }
-
-const users = {
-  'lucasalvarengalopes@gmail.com': '25032004',
-};
 
 class TelaLogin extends StatelessWidget {
   const TelaLogin({super.key});
@@ -884,43 +771,58 @@ class TelaLogin extends StatelessWidget {
           builder: (context) => const Home(),
         ));
       },
+      disableCustomPageTransformer: true,
       onRecoverPassword: _recoverPassword,
     );
   }
 }
 
-List<String> modulos = [
-  'UTILITÁRIOS',
-  'CAÇADAS',
-  'INVESTIGAÇÃO',
-  'MITOLOGIA',
-  'FANTASMAS',
-  'MONSTROS',
-  'DEMÔNIOS',
-  'ANJOS',
-  'DIVINDADES'
+//variaveis globais utilizadas no desenvolvimento
+class Cores {
+  static const Color corPrimaria = Color.fromARGB(255, 14, 14, 14);
+  static const Color corSecundaria = Color.fromARGB(255, 246, 246, 246);
+  static const Color corTerciaria = Color.fromARGB(255, 8, 156, 198);
+  static const Color corExtra = Color.fromARGB(255, 8, 82, 104);
+  static const Color corExtra2 = Color.fromARGB(255, 0, 199, 255);
+  static const Color corHover = Color.fromARGB(255, 37, 37, 37);
+}
+
+List<ListaModulos> modulos = [
+  ListaModulos('UTILITÁRIOS', 'materiais.png'),
+  ListaModulos('CAÇADAS', 'caca.png'),
+  ListaModulos('INVESTIGAÇÃO', 'investigacao.png'),
+  ListaModulos('MITOLOGIA', 'mitologia.png'),
+  ListaModulos('FANTASMAS', 'fantasmas.png'),
+  ListaModulos('MONSTROS', 'monstros.png'),
+  ListaModulos('DEMÔNIOS', 'demonios.png'),
+  ListaModulos('ANJOS', 'anjos.png'),
+  ListaModulos('DIVINDADES', 'divindades.png'),
 ];
 
-List<String> modImagens = [
-  'materiais.png',
-  'caca.png',
-  'investigacao.png',
-  'mitologia.png',
-  'fantasmas.png',
-  'monstros.png',
-  'demonios.png',
-  'anjos.png',
-  'divindades.png',
+class ListaModulos {
+  String nome;
+  String imagem;
+  ListaModulos(this.nome, this.imagem);
+}
+
+List<Professor> professores = [
+  Professor('DEAN WINCHESTER', 'deanwinchester@winchesteracademy.com.br',
+      '(11)98206-7492'),
+  Professor('SAMUEL WINCHESTER', 'samuelwinchester@winchesteracademy.com.br',
+      '(11)98600-4585'),
+  Professor('ROBERT SINGER', 'robertsinger@winchesteracademy.com.br',
+      '(11)99212-8222'),
+  Professor('CASTIEL', 'castiel@winchesteracademy.com.br', '(11)99876-6363'),
 ];
 
-List<Widget> linkImagens = [
-  const Materiais(),
-  const Instrucoes(),
-  const Investigacao(),
-  const Mitologia(),
-  const Fantasmas(),
-  const Monstros(),
-  const Demonios(),
-  const Anjos(),
-  const Divindades(),
-];
+class Professor {
+  String nome;
+  String email;
+  String telefone;
+
+  Professor(this.nome, this.email, this.telefone);
+}
+
+const users = {
+  'lucasalvarengalopes@gmail.com': '25032004',
+};
