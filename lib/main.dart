@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -18,13 +16,18 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: NavBar(
-          ListView(
-            children: [
-              Carrossel(),
-            ],
-          ),
-        ));
+        home: NavBar(ListView(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              margin: const EdgeInsets.symmetric(vertical: 35),
+              child: Image.asset(
+                'assets/images/wcacademy.png',
+              ),
+            ),
+            Carrossel(),
+          ],
+        )));
   }
 }
 
@@ -42,6 +45,18 @@ class _Carrossel extends State<Carrossel> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      Container(
+        padding: const EdgeInsets.only(top: 35),
+        child: const Text(
+          'DESTAQUES',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 40,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
       CarouselSlider(
         items: modulos.asMap().entries.map((i) {
           final int posicao = i.key;
@@ -53,9 +68,7 @@ class _Carrossel extends State<Carrossel> {
             builder: (BuildContext context) {
               return Container(
                 width: MediaQuery.of(context).size.width * 0.90,
-                height: MediaQuery.of(context).size.height * 0.25,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 1.0, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 1.0),
                 child: Card(modulo, imagem, link),
               );
             },
@@ -79,8 +92,7 @@ class _Carrossel extends State<Carrossel> {
             child: Container(
               width: 12.0,
               height: 12.0,
-              margin:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 3.0),
+              margin: const EdgeInsets.symmetric(horizontal: 3.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: (Theme.of(context).brightness == Brightness.dark
@@ -115,6 +127,7 @@ class Card extends StatelessWidget {
             child: Container(
                 width: MediaQuery.of(context).size.width * 0.90,
                 margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.symmetric(vertical: 25),
                 decoration: BoxDecoration(
                   color: Cores.corPrimaria.withAlpha(180),
                   border: Border.all(
@@ -124,19 +137,22 @@ class Card extends StatelessWidget {
                       Radius.circular(15.0)), // Set rounded corner radius
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Image.asset('assets/images/$imagem',
-                        height: MediaQuery.of(context).size.height * 0.12),
-                    Text(
-                      modulo,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Cores.corExtra2,
-                        fontSize: 25,
-                        decoration: TextDecoration.none,
+                        height: MediaQuery.of(context).size.height * 0.10),
+                    Container(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Text(
+                        modulo,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Cores.corExtra2,
+                          fontSize: 28,
+                          decoration: TextDecoration.none,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ))));
@@ -234,9 +250,9 @@ class SideBar extends StatelessWidget {
           icon: Icons.people,
           label: 'Contato',
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //   return const Contato();
-            // }));
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const Contato();
+            }));
           },
         ),
         SidebarXItem(
@@ -455,21 +471,113 @@ class Modulos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NavBar(ListView(children: [
-      Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Row(children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: Card(modulos[0], modImagens[0], linkImagens[0]),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: Card(modulos[1], modImagens[1], linkImagens[1]),
-          ),
-        ]),
-      ]),
+      Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(top: 35),
+              child: const Text(
+                'MÓDULOS:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 20),
+                child: Card(modulos[0], modImagens[0], linkImagens[0]),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 20),
+                child: Card(modulos[1], modImagens[1], linkImagens[1]),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[2], modImagens[2], linkImagens[2]),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[3], modImagens[3], linkImagens[3]),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[4], modImagens[4], linkImagens[4]),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[5], modImagens[5], linkImagens[5]),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[6], modImagens[6], linkImagens[6]),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: Card(modulos[7], modImagens[7], linkImagens[7]),
+              ),
+            ]),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.45,
+              padding: const EdgeInsets.only(top: 15),
+              child: Card(modulos[8], modImagens[8], linkImagens[8]),
+            ),
+          ]),
     ]));
+  }
+}
+
+class Contato extends StatelessWidget {
+  const Contato({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const NavBar(Column(
+      children: [CardContato('dean', 'Dean Winchester', 'Instrutor de Caça')],
+    ));
+  }
+}
+
+class CardContato extends StatelessWidget {
+  final String imagem;
+  final String nome;
+  final String cargo;
+  const CardContato(this.imagem, this.nome, this.cargo, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: [
+          Image.asset('assets/images/$imagem.png'),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(nome),
+              Text(cargo),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
