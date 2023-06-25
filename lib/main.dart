@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sidebarx/sidebarx.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.1,
-              margin: const EdgeInsets.symmetric(vertical: 35),
+              margin: const EdgeInsets.symmetric(vertical: 50),
               child: Image.asset(
                 'assets/images/wcacademy.png',
               ),
@@ -230,14 +231,6 @@ class SideBar extends StatelessWidget {
           },
         ),
         SidebarXItem(
-            icon: Icons.search,
-            label: 'Pesquisa',
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) {
-              //   return const Pesquisa();
-              // }));
-            }),
-        SidebarXItem(
           icon: Icons.list,
           label: 'Módulos',
           onTap: () {
@@ -248,10 +241,10 @@ class SideBar extends StatelessWidget {
         ),
         SidebarXItem(
           icon: Icons.people,
-          label: 'Contato',
+          label: 'Suporte',
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const Contato();
+              return const Suporte();
             }));
           },
         ),
@@ -545,14 +538,61 @@ class Modulos extends StatelessWidget {
   }
 }
 
-class Contato extends StatelessWidget {
-  const Contato({super.key});
+class Suporte extends StatelessWidget {
+  const Suporte({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const NavBar(Column(
-      children: [CardContato('dean', 'Dean Winchester', 'Instrutor de Caça')],
-    ));
+    return NavBar(
+      Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(children: [
+              Container(
+                padding: const EdgeInsets.only(top: 35),
+                child: Text(
+                  'PRECISA DE AJUDA?',
+                  style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(
+                    color: Cores.corExtra2,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 30,
+                  )),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 5, bottom: 30),
+                child: Text(
+                  'Fale com um de nossos professores',
+                  style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  )),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ]),
+            const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CardContato('dean', 'DEAN WINCHESTER', 'INSTRUTOR DE CAÇA'),
+                  CardContato('sam', 'SAMUEL WINCHESTER', 'ANALISTA DE CASOS'),
+                ]),
+            Container(
+              padding: const EdgeInsets.only(top: 15),
+              child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CardContato('bobby', 'ROBERT SINGER', 'MITOLOGISTA'),
+                    CardContato('castiel', 'CASTIEL', 'GUARDIÃO CELESTIAL'),
+                  ]),
+            ),
+          ]),
+    );
   }
 }
 
@@ -565,18 +605,38 @@ class CardContato extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
-        children: [
-          Image.asset('assets/images/$imagem.png'),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(nome),
-              Text(cargo),
-            ],
-          )
-        ],
+      width: MediaQuery.of(context).size.width * 0.425,
+      height: MediaQuery.of(context).size.height * 0.24,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            fit: BoxFit.cover, image: AssetImage('assets/images/$imagem.png')),
+        border: Border.all(
+            color: Colors.white, // Set border color
+            width: 1.0), // Set border width
+        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
       ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Text(nome,
+            style: GoogleFonts.montserrat(
+              textStyle: const TextStyle(
+                color: Cores.corExtra2,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            )),
+        Container(
+          padding: const EdgeInsets.only(bottom: 10, top: 5),
+          child: Text(
+            cargo,
+            style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+              fontSize: 11,
+            )),
+          ),
+        ),
+      ]),
     );
   }
 }
