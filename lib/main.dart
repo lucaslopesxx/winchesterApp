@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_login/flutter_login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Home());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +50,14 @@ class _Carrossel extends State<Carrossel> {
     return Column(children: [
       Container(
         padding: const EdgeInsets.only(top: 35),
-        child: const Text(
-          'DESTAQUES',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-            fontSize: 40,
-          ),
-          textAlign: TextAlign.center,
-        ),
+        child: Text('DESTAQUES',
+            style: GoogleFonts.kronaOne(
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 35,
+              ),
+            )),
       ),
       CarouselSlider(
         items: modulos.asMap().entries.map((i) {
@@ -70,13 +71,15 @@ class _Carrossel extends State<Carrossel> {
               return Container(
                 width: MediaQuery.of(context).size.width * 0.90,
                 margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                child: Card(modulo, imagem, link),
+                child: CardCarrossel(modulo, imagem, link),
               );
             },
           );
         }).toList(),
         carouselController: _controle,
         options: CarouselOptions(
+          autoPlay: true,
+          autoPlayInterval: const Duration(milliseconds: 7500),
           enlargeCenterPage: true,
           onPageChanged: (posicao, reason) {
             setState(() {
@@ -109,11 +112,11 @@ class _Carrossel extends State<Carrossel> {
   }
 }
 
-class Card extends StatelessWidget {
+class CardCarrossel extends StatelessWidget {
   final String modulo;
   final String imagem;
   final Widget link;
-  const Card(this.modulo, this.imagem, this.link, {super.key});
+  const CardCarrossel(this.modulo, this.imagem, this.link, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -144,16 +147,14 @@ class Card extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.10),
                     Container(
                       padding: const EdgeInsets.only(top: 25),
-                      child: Text(
-                        modulo,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Cores.corExtra2,
-                          fontSize: 28,
-                          decoration: TextDecoration.none,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      child: Text(modulo,
+                          style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                              color: Cores.corExtra2,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 32,
+                            ),
+                          )),
                     ),
                   ],
                 ))));
@@ -177,8 +178,8 @@ class SideBar extends StatelessWidget {
           color: Colors.white,
         ),
         selectedTextStyle: const TextStyle(color: Colors.white),
-        itemTextPadding: const EdgeInsets.only(left: 40),
-        selectedItemTextPadding: const EdgeInsets.only(left: 40),
+        itemTextPadding: const EdgeInsets.only(left: 20),
+        selectedItemTextPadding: const EdgeInsets.only(left: 20),
         itemDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -226,7 +227,7 @@ class SideBar extends StatelessWidget {
           label: 'Home',
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const MyApp();
+              return const Home();
             }));
           },
         ),
@@ -240,7 +241,7 @@ class SideBar extends StatelessWidget {
           },
         ),
         SidebarXItem(
-          icon: Icons.people,
+          icon: Icons.support_agent,
           label: 'Suporte',
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -249,7 +250,7 @@ class SideBar extends StatelessWidget {
           },
         ),
         SidebarXItem(
-          iconWidget: ClipRRect(
+          /*iconWidget: ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: SizedBox(
               width: 25,
@@ -258,12 +259,13 @@ class SideBar extends StatelessWidget {
                 'assets/images/user.png',
               ),
             ),
-          ),
+          ),*/
+          icon: Icons.person,
           label: 'Conta',
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //   return const Conta();
-            // }));
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const Conta();
+            }));
           },
         ),
       ],
@@ -285,10 +287,7 @@ class Materiais extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Materiais e Ferramentas'),
-    ));
+    return const Conta();
   }
 }
 
@@ -297,10 +296,7 @@ class Instrucoes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Instruções de Caça'),
-    ));
+    return const Conta();
   }
 }
 
@@ -309,10 +305,7 @@ class Investigacao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Investigação'),
-    ));
+    return const Conta();
   }
 }
 
@@ -321,10 +314,7 @@ class Mitologia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Mitologia'),
-    ));
+    return const Conta();
   }
 }
 
@@ -333,10 +323,7 @@ class Fantasmas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Fantasmas'),
-    ));
+    return const Conta();
   }
 }
 
@@ -345,10 +332,7 @@ class Monstros extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Monstros'),
-    ));
+    return const Conta();
   }
 }
 
@@ -357,10 +341,7 @@ class Demonios extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Demônios'),
-    ));
+    return const Conta();
   }
 }
 
@@ -369,10 +350,7 @@ class Anjos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Anjos'),
-    ));
+    return const Conta();
   }
 }
 
@@ -381,10 +359,7 @@ class Divindades extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(Container(
-      color: Cores.corExtra,
-      child: Text('Divindades'),
-    ));
+    return const Conta();
   }
 }
 
@@ -470,68 +445,67 @@ class Modulos extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.only(top: 35),
-              child: const Text(
-                'MÓDULOS:',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              child: Text('MÓDULOS',
+                  style: GoogleFonts.kronaOne(
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 35,
+                    ),
+                  )),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 20),
-                child: Card(modulos[0], modImagens[0], linkImagens[0]),
+                child: CardCarrossel(modulos[0], modImagens[0], linkImagens[0]),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 20),
-                child: Card(modulos[1], modImagens[1], linkImagens[1]),
+                child: CardCarrossel(modulos[1], modImagens[1], linkImagens[1]),
               ),
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[2], modImagens[2], linkImagens[2]),
+                child: CardCarrossel(modulos[2], modImagens[2], linkImagens[2]),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[3], modImagens[3], linkImagens[3]),
-              ),
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[4], modImagens[4], linkImagens[4]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[5], modImagens[5], linkImagens[5]),
+                child: CardCarrossel(modulos[3], modImagens[3], linkImagens[3]),
               ),
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[6], modImagens[6], linkImagens[6]),
+                child: CardCarrossel(modulos[4], modImagens[4], linkImagens[4]),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 padding: const EdgeInsets.only(top: 15),
-                child: Card(modulos[7], modImagens[7], linkImagens[7]),
+                child: CardCarrossel(modulos[5], modImagens[5], linkImagens[5]),
+              ),
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: CardCarrossel(modulos[6], modImagens[6], linkImagens[6]),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                padding: const EdgeInsets.only(top: 15),
+                child: CardCarrossel(modulos[7], modImagens[7], linkImagens[7]),
               ),
             ]),
             Container(
               width: MediaQuery.of(context).size.width * 0.45,
               padding: const EdgeInsets.only(top: 15),
-              child: Card(modulos[8], modImagens[8], linkImagens[8]),
+              child: CardCarrossel(modulos[8], modImagens[8], linkImagens[8]),
             ),
           ]),
     ]));
@@ -551,16 +525,14 @@ class Suporte extends StatelessWidget {
             Column(children: [
               Container(
                 padding: const EdgeInsets.only(top: 35),
-                child: Text(
-                  'PRECISA DE AJUDA?',
-                  style: GoogleFonts.montserrat(
+                child: Text('PRECISA DE AJUDA?',
+                    style: GoogleFonts.kronaOne(
                       textStyle: const TextStyle(
-                    color: Cores.corExtra2,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 30,
-                  )),
-                  textAlign: TextAlign.center,
-                ),
+                        color: Cores.corExtra2,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                      ),
+                    )),
               ),
               Container(
                 padding: const EdgeInsets.only(top: 5, bottom: 30),
@@ -576,24 +548,187 @@ class Suporte extends StatelessWidget {
                 ),
               ),
             ]),
-            const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CardContato('dean', 'DEAN WINCHESTER', 'INSTRUTOR DE CAÇA'),
-                  CardContato('sam', 'SAMUEL WINCHESTER', 'ANALISTA DE CASOS'),
-                ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              GestureDetector(
+                onTap: () => _exibirInformacoesContato(context, professores[0]),
+                child: const CardContato(
+                    'dean', 'DEAN WINCHESTER', 'INSTRUTOR DE CAÇA'),
+              ),
+              GestureDetector(
+                onTap: () => _exibirInformacoesContato(context, professores[1]),
+                child: const CardContato(
+                    'sam', 'SAMUEL WINCHESTER', 'ANALISTA DE CASOS'),
+              )
+            ]),
             Container(
               padding: const EdgeInsets.only(top: 15),
-              child: const Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CardContato('bobby', 'ROBERT SINGER', 'MITOLOGISTA'),
-                    CardContato('castiel', 'CASTIEL', 'GUARDIÃO CELESTIAL'),
+                    GestureDetector(
+                      onTap: () =>
+                          _exibirInformacoesContato(context, professores[2]),
+                      child: const CardContato(
+                          'bobby', 'ROBERT SINGER', 'MITOLOGISTA'),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _exibirInformacoesContato(context, professores[3]),
+                      child: const CardContato(
+                          'castiel', 'CASTIEL', 'GUARDIÃO CELESTIAL'),
+                    ),
                   ]),
             ),
           ]),
     );
   }
+}
+
+void _exibirInformacoesContato(BuildContext context, Professor professor) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Theme(
+            data: Theme.of(context).copyWith(
+                dialogBackgroundColor: Cores.corPrimaria.withAlpha(0)),
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Cores.corPrimaria.withAlpha(220),
+                  border: Border.all(color: Colors.white, width: 3),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                width: MediaQuery.of(context).size.width * 0.85,
+                padding: const EdgeInsets.symmetric(vertical: 35),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        professor.nome,
+                        style: GoogleFonts.kronaOne(
+                            textStyle: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Cores.corExtra2,
+                          fontSize: 20,
+                        )),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Column(children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(children: [
+                                        Container(
+                                            padding:
+                                                const EdgeInsets.only(right: 5),
+                                            child: const Icon(
+                                              FontAwesomeIcons.envelope,
+                                              color: Cores.corExtra2,
+                                              size: 20,
+                                            )),
+                                        Text(
+                                          'Email:',
+                                          style: GoogleFonts.montserrat(
+                                              textStyle: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          )),
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ]),
+                                      Container(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          professor.email,
+                                          style: GoogleFonts.montserrat(
+                                              textStyle: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          )),
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ]),
+                              ]),
+                          Container(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(children: [
+                                    Row(children: [
+                                      Container(
+                                          padding:
+                                              const EdgeInsets.only(right: 5),
+                                          child: const Icon(
+                                            FontAwesomeIcons.whatsapp,
+                                            color: Cores.corExtra2,
+                                            size: 20,
+                                          )),
+                                      Text(
+                                        'Telefone:',
+                                        style: GoogleFonts.montserrat(
+                                            textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        )),
+                                      ),
+                                    ]),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        professor.telefone,
+                                        style: GoogleFonts.montserrat(
+                                            textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        )),
+                                      ),
+                                    ),
+                                  ]),
+                                ]),
+                          ),
+                        ]),
+                      ),
+                    ]),
+              ),
+            )
+            // Adicione outras informações de contato aqui, se necessário
+            );
+      });
+}
+
+List<Professor> professores = [
+  Professor('DEAN WINCHESTER', 'deanwinchester@winchesteracademy.com.br',
+      '(11)98206-7492'),
+  Professor('SAMUEL WINCHESTER', 'samuelwinchester@winchesteracademy.com.br',
+      '(11)98600-4585'),
+  Professor('ROBERT SINGER', 'robertsinger@winchesteracademy.com.br',
+      '(11)99212-8222'),
+  Professor('CASTIEL', 'castiel@winchesteracademy.com.br', '(11)99876-6363'),
+];
+
+class Professor {
+  String nome;
+  String email;
+  String telefone;
+
+  Professor(this.nome, this.email, this.telefone);
 }
 
 class CardContato extends StatelessWidget {
@@ -641,16 +776,129 @@ class CardContato extends StatelessWidget {
   }
 }
 
+class Conta extends StatelessWidget {
+  const Conta({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const NavBar(TelaLogin());
+  }
+}
+
+const users = {
+  'lucasalvarengalopes@gmail.com': '25032004',
+};
+
+class TelaLogin extends StatelessWidget {
+  const TelaLogin({super.key});
+  Duration get tempoLogin => const Duration(milliseconds: 2250);
+
+  Future<String?> _authUser(LoginData data) {
+    debugPrint('Nome: ${data.name}, Senha: ${data.password}');
+    return Future.delayed(tempoLogin).then((_) {
+      if (!users.containsKey(data.name)) {
+        return 'Usuário não encontrado';
+      }
+      if (users[data.name] != data.password) {
+        return 'A senha não coincide';
+      }
+      return null;
+    });
+  }
+
+  Future<String?> _signupUser(SignupData data) {
+    debugPrint('Signup Nome: ${data.name}, Senha: ${data.password}');
+    return Future.delayed(tempoLogin).then((_) {
+      return null;
+    });
+  }
+
+  Future<String> _recoverPassword(String nome) {
+    debugPrint('Nome: $nome');
+    return Future.delayed(tempoLogin).then((_) {
+      if (!users.containsKey(nome)) {
+        return 'Usuário não registrado';
+      }
+      return 'null';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterLogin(
+      title: 'Winchester APP',
+      theme: LoginTheme(
+        primaryColor: Cores.corExtra,
+        accentColor: Cores.corExtra2,
+        errorColor: Colors.red,
+        titleStyle: GoogleFonts.kronaOne(
+            textStyle: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 35)),
+        buttonTheme: LoginButtonTheme(
+          splashColor: Cores.corTerciaria,
+          backgroundColor: Cores.corExtra,
+          highlightColor: Cores.corTerciaria,
+          elevation: 9.0,
+          highlightElevation: 6.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+        pageColorDark: Cores.corExtra.withAlpha(0),
+        pageColorLight: Cores.corExtra.withAlpha(0),
+        logoWidth: 0.8,
+      ),
+      messages: LoginMessages(
+          userHint: 'Email',
+          passwordHint: 'Senha',
+          confirmPasswordHint: 'Confirme a senha',
+          signupButton: 'Cadastre-se',
+          forgotPasswordButton: 'Esqueceu sua senha?',
+          recoverPasswordButton: 'Enviar',
+          recoverPasswordDescription: 'Um link de recuperação será enviado',
+          recoverPasswordIntro: 'Recupere sua senha',
+          goBackButton: 'Voltar',
+          confirmPasswordError: 'Senhas não coincidem',
+          providersTitleFirst: 'ou entre com',
+          recoverPasswordSuccess:
+              'Um email de recuperação foi enviado, confira sua caixa de entrada'),
+      logo: const AssetImage('assets/images/wcacademy.png'),
+      onLogin: _authUser,
+      onSignup: _signupUser,
+      loginProviders: <LoginProvider>[
+        LoginProvider(
+          icon: FontAwesomeIcons.google,
+          label: 'Google',
+          callback: () async {
+            debugPrint('start google sign in');
+            await Future.delayed(tempoLogin);
+            debugPrint('stop google sign in');
+            return null;
+          },
+        ),
+      ],
+      onSubmitAnimationCompleted: () {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Home(),
+        ));
+      },
+      onRecoverPassword: _recoverPassword,
+    );
+  }
+}
+
 List<String> modulos = [
-  'Materiais e Ferramentas',
-  'Instruções de Caça',
-  'Investigação',
-  'Mitologia',
-  'Fantasmas',
-  'Monstros',
-  'Demônios',
-  'Anjos',
-  'Divindades'
+  'UTILITÁRIOS',
+  'CAÇADAS',
+  'INVESTIGAÇÃO',
+  'MITOLOGIA',
+  'FANTASMAS',
+  'MONSTROS',
+  'DEMÔNIOS',
+  'ANJOS',
+  'DIVINDADES'
 ];
 
 List<String> modImagens = [
