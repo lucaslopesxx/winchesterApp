@@ -15,6 +15,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Winchester APP',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -79,7 +80,6 @@ class NavBar extends StatelessWidget {
                 ),
               ],
             ),
-            app,
             Positioned(
               bottom: 0,
               right: 0,
@@ -96,7 +96,8 @@ class NavBar extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            app,
           ],
         ),
       ),

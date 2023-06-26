@@ -41,6 +41,23 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_login: ^4.1.1
   font_awesome_flutter: ^10.4.0
+  flutter_native_splash: ^2.3.1
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_native_splash:
+  color: "#252525"
+  image: "assets/images/icon.png"
+  android: true
+  ios: true
+
+flutte_launcher_icons:
+  image_path: "assets/images/icon.png"
+  ios: true
+  remove_alpha_ios: true
+  android: "launcher_icon"
+  adaptative_icon_background: "#252525"
+  adaptative_icon_foreground: "assets/app/icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +110,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
